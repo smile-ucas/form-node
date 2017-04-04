@@ -1,0 +1,41 @@
+<script src="jquery.js"></script>
+<form id="frmUploadFile" enctype="multipart/form-data" action='javascript:;' role="form" method="post">
+        <input type="file" name="myfile" class="file" onClick="clearfile()">
+    <div >
+        <input type="submit" onClick="uploadFile()">
+        <span  id="spanMessage"></span>
+    </div>
+</form>
+<script>
+    function clearfile(){
+        $("#spanMessage").html("");
+    }
+    function uploadFile(){
+        var formData = new FormData($("#frmUploadFile")[0]);
+        $.ajax({
+            url: '/upload',
+            type: 'POST',
+            data: formData,
+            async: true,
+
+            contentType: false,
+            //在 ajax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
+            processData: false,
+            //processData默认情况下是true，通过data选项传递进来的数据，如果是一个对象(技术上讲只要不是字符串)，都会处理转化成一个查询字符串，
+            // 以配合默认内容类型 "application/x-www-form-urlencoded"。如果要发送 DOM 树信息或其它不希望转换的信息，请设置为 false
+
+
+            success: function(data){
+                if(200 === data.code) {
+                    $("#spanMessage").html("上传成功了");
+                    alert(data.msg.url);
+                } else {
+                    $("#spanMessage").html("上传失败了");
+                }
+            },
+            error: function(){
+                $("#spanMessage").html("与服务器通信发生了错误");
+           }
+        });
+    }
+</script>
