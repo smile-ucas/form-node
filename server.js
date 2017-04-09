@@ -29,10 +29,7 @@ app.get('/',function (req,res) {
     res.sendFile('index/index.html',{"root":__dirname});
     //sendFile是要发送文件，是响应的一个方法
 });
-// app.get('/about',function (req,res) {
-//     res.type('text/plain');
-//     res.send('Travel about');
-// });
+
 
 //app.post中第一个参数'/upload'对应前端index.html中请求的url: '/upload'，参数要一致
 app.post('/upload',mutipartMiddeware,function (req,res) {
